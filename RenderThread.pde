@@ -11,7 +11,7 @@ class RenderThread extends Thread {
         sem.acquire();
         for (int y=id; y<height; y+=threadCount)
           for (int x=0; x<width; x++) 
-            set(x, y, world.trace(camera.ray((float)x/halfWidth-1, -((float)y/halfHeight-1))));
+            set(x, y, world.shade(camera.ray((float)x/halfWidth-1, -((float)y/halfHeight-1))));
         sem.release();
       }
     }

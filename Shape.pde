@@ -1,4 +1,8 @@
 abstract class Shape {
-  abstract void traceEye(PVector eye);
+  Material material;
+  Shape(Material material) {
+    this.material = material;
+  }
   abstract Hit trace(Ray ray);
 }
+
