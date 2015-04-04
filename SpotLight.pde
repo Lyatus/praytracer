@@ -1,23 +1,19 @@
-class SpotLight extends Light {
-  private PVector position, direction;
-  private float radius;
+class SpotLight extends PointLight {
+  private PVector direction;
   private float angle;
   SpotLight(PVector position, PVector direction, float radius, float angle) {
-    this.position = position;
+    super(position, radius);
     this.direction = direction;
     this.direction.normalize();
-    this.radius = radius;
     this.angle = angle;
   }
-  float diffuse(World world, Ray ray, Hit hit) {
-    float wtr = (radius-PVector.dist(hit.position, position))/radius;
+  float attenuation(Hit hit) {
+    float wtr = super.attenuation(hit);
     if (wtr<=0) return 0; // Too far
-    PVector hitToLight = PVector.sub(position, hit.position);
-    float distance = hitToLight.mag();
+    PVector hitToLight = toLight(hit);
     hitToLight.normalize();
-    if(hitToLight.dot(direction)>-1+angle) return 0;
-    if(shadowed(world,hit,hitToLight,distance)) return 0;
-    else return max(wtr*hit.normal.dot(hitToLight), 0);
+    if (hitToLight.dot(direction)>-1+angle) return 0; // Outside the spot
+    return wtr;
   }
 }
 

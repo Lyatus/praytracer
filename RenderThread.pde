@@ -4,14 +4,14 @@ class RenderThread extends Thread {
     this.id = id;
   }
   public void run() {
-    float halfWidth = width/2;
-    float halfHeight = height/2;
+    float w = 1/((float)width/2); // Map ahead, multiplications are faster than divisions
+    float h = 1/((float)height/2);
     try {
       while (true) {
         sem.acquire();
         for (int y=id; y<height; y+=threadCount)
           for (int x=0; x<width; x++) 
-            set(x, y, world.shade(camera.ray((float)x/halfWidth-1, -((float)y/halfHeight-1))));
+            set(x, y, world.shade(camera.ray(x*w-1, -(y*h-1))));
         sem.release();
       }
     }
