@@ -8,11 +8,11 @@ class RenderThread extends Thread {
     float h = 1/((float)height/2);
     try {
       while (true) {
-        sem.acquire();
+        startSem.acquire();
         for (int y=id; y<height; y+=threadCount)
           for (int x=0; x<width; x++) 
             set(x, y, world.shade(camera.ray(x*w-1, -(y*h-1))));
-        sem.release();
+        endSem.release();
       }
     }
     catch(InterruptedException ie) {
