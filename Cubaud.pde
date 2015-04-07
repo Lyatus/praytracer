@@ -1,14 +1,17 @@
 import java.util.concurrent.Semaphore;
 
-int width = 16*50, height = 9*50, threadCount = Runtime.getRuntime().availableProcessors();
+int threadCount = Runtime.getRuntime().availableProcessors();
 Semaphore startSem = new Semaphore(0);
 Semaphore endSem = new Semaphore(0);
-Camera camera = new Camera(new PVector(5, 2, 5), new PVector(0, 0, 0), (float)width/height, 60);
-World world = new World();
+Camera camera;
+World world;
 
 void setup() {
-  size(width, height);
+  size(16*32, 9*32);
+  frameRate(9999); // Gotta go fast!
   println("Initializing world");
+  world = new World();
+  camera = new Camera(new PVector(5, 4, 5), new PVector(0, 1, 0), (float)width/height);
   Material defaultMaterial = new Material(#FFFFFF, 0);
   Material redMaterial = new Material(#FF0000, .5);
   world.add(new Plane(defaultMaterial, new PVector(0, 0, 0), new PVector(0, 1, 0)));
@@ -25,19 +28,23 @@ void setup() {
     new RenderThread(i).start();
 }
 
+int lastms = 0;
 void draw() {
-  camera.rotateAround(.05); // Rotate camera
+  int currentms = millis();
+  camera.rotateAround((float)(currentms-lastms)/1000); // Rotate camera
+  lastms = currentms;
   try {
-    int startms = millis();
     startSem.release(threadCount); // Start all thread
     endSem.acquire(threadCount); // Wait for all to end
-    //println("Frame duration: "+(millis()-startms));
   }
   catch(InterruptedException ie) {
   }
-  if (frameCount%64==1){
-    println("Average frame duration: "+((float)millis()/frameCount));
+  if (frameCount%32==1) {
     println("FPS: "+frameRate);
+    float frameDuration = (1/frameRate)*1000;
+    println("Frame duration: "+frameDuration+" milliseconds");
+    float pixelDuration = (frameDuration / (width*height))*1000;
+    println("Pixel processing duration: "+pixelDuration+" microseconds");
   }
 }
 
