@@ -14,11 +14,13 @@ void setup() {
   camera = new Camera(new PVector(5, 4, 5), new PVector(0, 1, 0), (float)width/height);
   Material defaultMaterial = new Material(#FFFFFF, 0);
   Material redMaterial = new Material(#FF0000, .5);
+  Material greenMaterial = new Material(#00FF00, .2);
+  Material blueMaterial = new Material(#0000FF, 1);
   world.add(new Plane(defaultMaterial, new PVector(0, 0, 0), new PVector(0, 1, 0)));
-  world.add(new Disc(redMaterial, new PVector(0, 3, 0), new PVector(.1, .5, 1), 2));
+  world.add(new Disc(blueMaterial, new PVector(0, 3, 0), new PVector(.1, .5, 1), 2));
   world.add(new Sphere(defaultMaterial, new PVector(0, 2, 0), 1));
   world.add(new Sphere(redMaterial, new PVector(2, 0, 0), 1));
-  world.add(new Cube(defaultMaterial, new PVector(0, 0, 2), 1));
+  world.add(new Cube(greenMaterial, new PVector(0, .5, 2), .5));
   //world.add(new DirectionalLight(new PVector(1, 1, 1)));
   world.add(new PointLight(new PVector(2, 5, 2), 10));
   //world.add(new PointLight(new PVector(2, 2, -4), 6));
@@ -32,7 +34,7 @@ int lastms = 0;
 void draw() {
   int currentms = millis();
   float rmouseX = (pmouseX-mouseX)*(float)(currentms-lastms)/1000, rmouseY = (pmouseY-mouseY)*(float)(currentms-lastms)/1000;
-  camera.rotateAround(rmouseX); // Rotate camera
+  camera.rotateAround(rmouseX*.5); // Rotate camera
   lastms = currentms;
   try {
     startSem.release(threadCount); // Start all thread
