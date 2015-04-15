@@ -6,6 +6,8 @@ Semaphore endSem = new Semaphore(0);
 Camera camera;
 World world;
 
+RenderThread[] renderThreads = new RenderThread[threadCount];
+
 void setup() {
   size(16*32, 9*32);
   frameRate(9999); // Gotta go fast!
@@ -26,8 +28,10 @@ void setup() {
   //world.add(new PointLight(new PVector(2, 2, -4), 6));
   //world.add(new SpotLight(new PVector(10, 10, 10), new PVector(-1, -1, -1), 32, .01));
   println("Initializing "+threadCount+" render threads");
-  for (int i=0; i<threadCount; i++)
-    new RenderThread(i).start();
+  for (int i=0; i<threadCount; i++) {
+    renderThreads[i] = new RenderThread(i);
+    renderThreads[i].start();
+  }
 }
 
 int lastms = 0;
@@ -39,6 +43,8 @@ void draw() {
   try {
     startSem.release(threadCount); // Start all thread
     endSem.acquire(threadCount); // Wait for all to end
+    for (RenderThread rt : renderThreads)
+      rt.blit(); // Draw what was computed in each thread
   }
   catch(InterruptedException ie) {
     println("Something went wrong");
