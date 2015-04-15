@@ -2,7 +2,7 @@ class Hit {
   Shape shape;
   PVector position;
   PVector normal;
-  float depth;
+  float depth; // Depth represents the distance between hit point and ray start
   Hit(Shape shape, PVector position, PVector normal, float depth) {
     this.shape = shape;
     this.position = position;

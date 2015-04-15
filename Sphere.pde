@@ -15,8 +15,7 @@ class Sphere extends Shape {
       return null;
     else {
       float d = -ldotoc - sqrt(delta);
-      if (d<0) // The point is before the start of the ray
-        return null;
+      if (d<0) return null; // The point is before the start of the ray
       PVector hitpos = PVector.add(ray.position, PVector.mult(ray.direction, d));
       return new Hit(this, hitpos, PVector.sub(hitpos, center), d);
     }

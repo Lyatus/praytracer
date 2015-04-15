@@ -10,7 +10,7 @@ class SpotLight extends PointLight {
   float attenuation(Hit hit) {
     float wtr = super.attenuation(hit);
     if (wtr<=0) return 0; // Too far
-    PVector hitToLight = toLight(hit);
+    PVector hitToLight = toLight(hit); // Vector between hit and light position
     hitToLight.normalize();
     if (hitToLight.dot(direction)>-1+angle) return 0; // Outside the spot
     return wtr;
