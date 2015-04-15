@@ -23,7 +23,7 @@ class World {
       for (Light light : lights)
         diffuse = max(diffuse, light.shade(this, ray, hit));
       float term = .1 + diffuse*.9;
-      return color(red(hit.shape.material.c)*term, green(hit.shape.material.c)*term, blue(hit.shape.material.c)*term);
+      return color((hit.shape.material.c >> 16 & 0xFF)*term, (hit.shape.material.c >> 8 & 0xFF)*term, (hit.shape.material.c & 0xFF)*term);
     }
     return 0;
   }

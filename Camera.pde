@@ -4,7 +4,7 @@
 class Camera {
   private PVector position, interest, forward, right, up;
   private float width, height;
-  Camera(PVector position, PVector interest, float ratio, float fovy) {
+  Camera(PVector position, PVector interest, float ratio) {
     this.position = position;
     this.height = 1;
     this.width = height*ratio;
@@ -27,6 +27,10 @@ class Camera {
     position.sub(interest);
     position = new PVector(position.x*cos(angle)-position.z*sin(angle), position.y, position.z*cos(angle)+position.x*sin(angle));
     position.add(interest);
+    lookat(interest);
+  }
+  void moveY(float rel) {
+    position.add(new PVector(0, rel, 0));
     lookat(interest);
   }
 }

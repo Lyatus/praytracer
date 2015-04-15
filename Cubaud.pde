@@ -18,7 +18,7 @@ void setup() {
   world.add(new Disc(redMaterial, new PVector(0, 3, 0), new PVector(.1, .5, 1), 2));
   world.add(new Sphere(defaultMaterial, new PVector(0, 2, 0), 1));
   world.add(new Sphere(redMaterial, new PVector(2, 0, 0), 1));
-  //world.add(new Cube(new PVector(0, 0, 0), 1));
+  world.add(new Cube(defaultMaterial, new PVector(0, 0, 2), 1));
   //world.add(new DirectionalLight(new PVector(1, 1, 1)));
   world.add(new PointLight(new PVector(2, 5, 2), 10));
   //world.add(new PointLight(new PVector(2, 2, -4), 6));
@@ -31,13 +31,15 @@ void setup() {
 int lastms = 0;
 void draw() {
   int currentms = millis();
-  camera.rotateAround((float)(currentms-lastms)/1000); // Rotate camera
+  float rmouseX = (pmouseX-mouseX)*(float)(currentms-lastms)/1000, rmouseY = (pmouseY-mouseY)*(float)(currentms-lastms)/1000;
+  camera.rotateAround(rmouseX); // Rotate camera
   lastms = currentms;
   try {
     startSem.release(threadCount); // Start all thread
     endSem.acquire(threadCount); // Wait for all to end
   }
   catch(InterruptedException ie) {
+    println("Something went wrong");
   }
   if (frameCount%32==1) {
     println("FPS: "+frameRate);

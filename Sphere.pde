@@ -11,12 +11,10 @@ class Sphere extends Shape {
     PVector oc = PVector.sub(ray.position, center);
     float ldotoc = ray.direction.dot(oc);
     float delta = pow(ldotoc, 2)-oc.magSq()+radiusSq;
-    if (delta<0)
+    if (delta<0) // Couldn't call sqrt on it
       return null;
     else {
-      float d = -ldotoc;
-      if (delta>0) // Avoid sqrt call if it would return 0 anyway
-        d -= sqrt(delta);
+      float d = -ldotoc - sqrt(delta);
       if (d<0) // The point is before the start of the ray
         return null;
       PVector hitpos = PVector.add(ray.position, PVector.mult(ray.direction, d));
