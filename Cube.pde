@@ -11,7 +11,7 @@ class Cube extends Shape {
     planes[4] = new Plane(material, PVector.add(position, new PVector(0, 0, radius)), new PVector(0, 0, 1));
     planes[5] = new Plane(material, PVector.add(position, new PVector(0, 0, -radius)), new PVector(0, 0, -1));
     this.position = position;
-    this.radius = radius+.001;
+    this.radius = radius+.000001;
   }
   Hit trace(Ray ray) {
     Hit wtr = null;
