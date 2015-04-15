@@ -1,12 +1,14 @@
 import java.util.concurrent.Semaphore;
 
+// Threading globals
 int threadCount = Runtime.getRuntime().availableProcessors();
 Semaphore startSem = new Semaphore(0);
 Semaphore endSem = new Semaphore(0);
+RenderThread[] renderThreads = new RenderThread[threadCount];
+
+// Raycasting globals
 Camera camera;
 World world;
-
-RenderThread[] renderThreads = new RenderThread[threadCount];
 
 void setup() {
   size(16*32, 9*32);
