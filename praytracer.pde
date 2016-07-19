@@ -11,7 +11,7 @@ Camera camera;
 World world;
 
 void setup() {
-  size(16*32, 9*32);
+  size(1024, 576);
   frameRate(9999); // Gotta go fast!
   println("Initializing world");
   world = new World();
@@ -52,11 +52,8 @@ void draw() {
     println("Something went wrong");
   }
   if (frameCount%32==1) {
-    println("FPS: "+frameRate);
     float frameDuration = (1/frameRate)*1000;
-    println("Frame duration: "+frameDuration+" milliseconds");
     float pixelDuration = (frameDuration / (width*height))*1000;
-    println("Pixel processing duration: "+pixelDuration+" microseconds");
+    println("FPS: "+frameRate+"\tFrame: "+frameDuration+"ms\tPixel: "+pixelDuration+"us");
   }
 }
-
